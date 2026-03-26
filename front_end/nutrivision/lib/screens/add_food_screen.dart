@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../models/models.dart';
 import '../theme/app_theme.dart';
 import '../widgets/widgets.dart';
+import 'package:image_picker/image_picker.dart';
+import 'image_preview_screen.dart';
 
 class AddFoodScreen extends StatelessWidget {
   final VoidCallback onGoToHistory;
@@ -13,6 +15,31 @@ class AddFoodScreen extends StatelessWidget {
     required this.onGoToHistory,
     required this.onGoToManual,
   });
+
+  Future<void> _pickImage(BuildContext context, ImageSource source) async {
+    final picker = ImagePicker();
+    try {
+      final pickedFile = await picker.pickImage(source: source);
+      if (pickedFile != null && context.mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ImagePreviewScreen(
+              imagePath: pickedFile.path,
+              onAnalyzeCompete: () {
+                Navigator.pop(context); // Pop preview
+                onGoToManual(); // Proceed to manual entry
+              },
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        _showSnack(context, 'Error picking image: $e');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +70,7 @@ class AddFoodScreen extends StatelessWidget {
                     'Snap your meal and let AI identify food and estimate portions automatically.',
                 accentColor: AppColors.leafLight,
                 bgColor: AppColors.leafPale,
-                onTap: () => _showSnack(context, '📸 Camera coming soon'),
+                onTap: () => _pickImage(context, ImageSource.camera),
               ),
               InputOptionCard(
                 emoji: '🖼️',
@@ -52,7 +79,7 @@ class AddFoodScreen extends StatelessWidget {
                     'Choose an existing photo from your gallery to analyze.',
                 accentColor: AppColors.amber,
                 bgColor: AppColors.amberPale,
-                onTap: () => _showSnack(context, '🖼️ Gallery picker coming soon'),
+                onTap: () => _pickImage(context, ImageSource.gallery),
               ),
               InputOptionCard(
                 emoji: '✍️',
