@@ -173,6 +173,7 @@ class MacroBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = Color(macro.colorValue);
     return NvCard(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

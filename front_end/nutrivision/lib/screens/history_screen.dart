@@ -28,7 +28,7 @@ class HistoryScreen extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             crossAxisSpacing: 14,
             mainAxisSpacing: 14,
-            childAspectRatio: 1.6,
+            childAspectRatio: 1.3,
             children: [
               _StatCard(
                 value: '1,847',
@@ -192,7 +192,7 @@ class HistoryScreen extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             crossAxisSpacing: 14,
             mainAxisSpacing: 14,
-            childAspectRatio: 1.6,
+            childAspectRatio: 1.3,
             children: macroGoals.map((m) => MacroBar(macro: m)).toList(),
           ),
 
